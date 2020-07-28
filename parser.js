@@ -1,10 +1,10 @@
 function meta(input) {
   return input.at('[') || input.at('`') || input.at(']')
 }
-function cite(input) {
+function op(input) {
   if (input.at('`')) { input.next()
-    if (input.done()) input.error('cite')
-    return ['cite', input.next()]
+    if (input.done()) input.error('op')
+    return ['op', input.next()]
   }
 }
 function note(input) {
@@ -26,7 +26,7 @@ function tao(input) {
   const tao = []
   while (true) {
     if (input.done()) return ['tao', tao]
-    tao.push(tree(input) || cite(input) || note(input))
+    tao.push(tree(input) || op(input) || note(input))
   }
 }
 
@@ -60,15 +60,7 @@ function unparse(ast) {
     if (tag === 'tao') return value.reduce((acc, next) => acc + unparse(next), "")
     if (tag === 'tree') return '[' + unparse(value) + ']'
     if (tag === 'note') return value
-    if (tag === 'cite') return '`' + value
+    if (tag === 'op') return '`' + value
 
     throw Error(`Invalid JSON AST of TAO: ${JSON.stringify(ast)}`)
-}
-
-function toAst(str) {
-  return JSON.stringify(
-    parse(str), 
-    null, 
-    2
-  )
 }
