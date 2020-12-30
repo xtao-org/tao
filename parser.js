@@ -3,7 +3,7 @@ function meta(input) {
 }
 function op(input) {
   if (input.at('`')) { input.next()
-    if (input.done()) input.error('op')
+    if (!meta(input) && input.done()) input.error('op')
     return ['op', input.next()]
   }
 }
