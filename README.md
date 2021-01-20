@@ -1,11 +1,28 @@
-# tao
-Reference parser for TAO
+# Reference parser for TAO
 
-Interactive version to try at [tree-annotation.org](https://tree-annotation.org/parser.html).
+This is a parser for the [TAO syntax grammar](https://www.tree-annotation.org/#grammar).
 
-The parser is implemented in simple JavaScript. The implementation can be used as a reference for more advanced parsers.
+It is implemented in simple JavaScript, as a module.
 
-Note that in JavaScript:
+The implementation can be used as a reference for other parsers, in particular in other programming languages.
 
-* a function returns undefined by default; undefined is falsy
-* the || operator only evaluates and returns its right operand if the left one is falsy; otherwise it returns the left one
+Important to note for people unfamiliar with JavaScript:
+
+* a `function` returns `undefined` by default; undefined is *falsy*
+* the `||` operator only evaluates and returns its right operand if the left one is *falsy*; otherwise it returns the left one
+
+# Interactive version
+
+Interactive version of the parser can be to tried at [tree-annotation.org](https://tree-annotation.org/parser.html).
+
+# Usage
+
+To use the parser module, import it into your code like this:
+
+```js
+import {parse, unparse} from "https://raw.githubusercontent.com/tree-annotation/tao/master/parser.js"
+
+// ...
+
+console.log(unparse(parse("hello, world!"))) // prints `hello, world!`
+```

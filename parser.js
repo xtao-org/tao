@@ -64,3 +64,5 @@ function unparse(ast) {
 
     throw Error(`Invalid JSON AST of TAO: ${JSON.stringify(ast)}`)
 }
+
+export {parse, unparse}
