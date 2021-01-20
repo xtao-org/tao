@@ -37,7 +37,6 @@ function parse(str) {
     done() { return position >= length },
     at(symbol) { return str[position] === symbol },
     next() { return str[position++] },
-    save() { saved = position },
     error(name) { throw Error(`ERROR: malformed ${name} at ${position}.`) },
     // returns a shallow copy of input with a replaced done() method
     // the new method uses the original one
