@@ -17,12 +17,14 @@ Interactive version of the parser can be to tried at [tree-annotation.org](https
 
 # Usage
 
-To use the parser module, import it into your code like this:
+To use the parser module, import it into your code, for example like this:
 
 ```js
-import {parse, unparse} from "https://raw.githubusercontent.com/tree-annotation/tao/master/parser.js"
+import {parse, unparse} from "https://raw.githubusercontent.com/tree-annotation/tao/v1.0-beta/parser.js"
 
 // ...
 
 console.log(unparse(parse("hello, world!"))) // prints `hello, world!`
 ```
+
+Note: this example imports the `v1.0-beta` version directly from GitHub (as specified in the URL).
