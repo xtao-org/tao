@@ -6,11 +6,6 @@ It is implemented in simple JavaScript, as a module.
 
 The implementation can be used as a reference for other parsers, in particular in other programming languages.
 
-Important to note for people unfamiliar with JavaScript:
-
-* a `function` returns `undefined` by default; undefined is *falsy*
-* the `||` operator only evaluates and returns its right operand if the left one is *falsy*; otherwise it returns the left one
-
 # Interactive version
 
 Interactive version of the parser can be to tried at [tree-annotation.org](https://tree-annotation.org/parser.html).
