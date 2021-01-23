@@ -2,55 +2,67 @@ function meta(input) {
   return input.at('[') || input.at('`') || input.at(']')
 }
 function op(input) {
-  if (input.at('`')) { input.next()
-    if (!meta(input) && input.done()) input.error('op')
+  if (input.at('`')) {
+    input.next()
+    if (input.done()) input.error('op')
     return ['op', input.next()]
   }
+  return ['other']
 }
 function note(input) {
   if (meta(input)) input.error('note')
   let note = input.next()
   while (true) {
-    if (input.done() || meta(input)) return ['note', note]
+    if (meta(input) || input.done()) return ['note', note]
     note += input.next()
   }
 }
 function tree(input) {
-  if (input.at('[')) { input.next()
-    const tree = tao(input.until(']'))
+  if (input.at('[')) {
+    input.next()
+    input.bound(']')
+    const tree = tao(input)
+    input.unbound()
     input.next()
     return ['tree', tree]
   }
+  return ['other']
 }
 function tao(input) {
   const tao = []
   while (true) {
-    if (input.done()) return ['tao', tao]
-    tao.push(tree(input) || op(input) || note(input))
+    if (input.atBound()) return ['tao', tao]
+    let item = tree(input)
+    if (item[0] === 'other') {
+      item = op(input)
+      if (item[0] === 'other') item = note(input)
+    }
+    tao.push(item)
   }
 }
 
 function parse(str) {
   const {length} = str
   let position = 0
+  const bounds = []
   const input = {
     done() { return position >= length },
     at(symbol) { return str[position] === symbol },
     next() { return str[position++] },
     error(name) { throw Error(`ERROR: malformed ${name} at ${position}.`) },
-    // returns a shallow copy of input with a replaced done() method
-    // the new method uses the original one
-    until(symbol) {
-      const saved = position
-      return {...input,
-        done() {
-          if (input.done()) throw Error(
-            `ERROR: since ${saved} expected ${JSON.stringify(symbol)} before end of input`
-          )
-          return input.at(symbol)
-        }
+    bound(symbol) { bounds.push([position, symbol]) },
+    unbound() { bounds.pop() },
+    atBound() {
+      const {length} = bounds
+      if (length > 0) {
+        const [position, symbol] = bounds[length - 1]
+        if (input.done()) Error(
+            `ERROR: since ${position} expected "${symbol}" before end of input`
+        )
+        return input.at(symbol)
       }
-    }
+      return input.done()
+    },
   }
   return tao(input)
 }
