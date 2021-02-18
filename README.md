@@ -4,11 +4,11 @@ This is a parser for the [TAO syntax grammar](https://www.tree-annotation.org/#g
 
 It is implemented in simple JavaScript, as a module.
 
-The implementation can be used as a reference for other parsers, in particular in other programming languages.
+The implementation can be used as a reference for other parsers, in particular in programming languages similar to JavaScript.
 
 # Interactive version
 
-Interactive version of the parser can be to tried at [tree-annotation.org](https://tree-annotation.org/parser.html).
+Interactive version of the parser can be tried at [tree-annotation.org](https://tree-annotation.org/parser.html).
 
 # Usage
 

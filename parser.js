@@ -1,3 +1,4 @@
+const other = ['other']
 function meta(input) {
   return input.at('[') || input.at('`') || input.at(']')
 }
@@ -7,7 +8,7 @@ function op(input) {
     if (input.done()) input.error('op')
     return ['op', input.next()]
   }
-  return ['other']
+  return other
 }
 function note(input) {
   if (meta(input)) input.error('note')
@@ -26,18 +27,18 @@ function tree(input) {
     input.next()
     return ['tree', tree]
   }
-  return ['other']
+  return other
 }
 function tao(input) {
   const tao = []
   while (true) {
     if (input.atBound()) return ['tao', tao]
-    let item = tree(input)
-    if (item[0] === 'other') {
-      item = op(input)
-      if (item[0] === 'other') item = note(input)
+    let part = tree(input)
+    if (part === other) {
+      part = op(input)
+      if (part === other) part = note(input)
     }
-    tao.push(item)
+    tao.push(part)
   }
 }
 
@@ -56,7 +57,7 @@ function parse(str) {
       const {length} = bounds
       if (length > 0) {
         const [position, symbol] = bounds[length - 1]
-        if (input.done()) Error(
+        if (input.done()) throw Error(
             `ERROR: since ${position} expected "${symbol}" before end of input`
         )
         return input.at(symbol)
